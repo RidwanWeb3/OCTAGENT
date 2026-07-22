@@ -25,10 +25,10 @@ export function Footer() {
         <div>
           <div className="text-xs font-mono tracking-widest text-muted-foreground mb-4">CONNECT</div>
           <div className="flex gap-3">
-            <a href="https://x.com" target="_blank" rel="noreferrer" className="glass w-10 h-10 rounded-lg flex items-center justify-center hover:text-neon hover:border-neon/50 transition-colors">
+            <a href="https://x.com/OCTOAIAGENT" target="_blank" rel="noreferrer" className="glass w-10 h-10 rounded-lg flex items-center justify-center hover:text-neon hover:border-neon/50 transition-colors">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.57L23 22h-6.797l-5.32-6.94L4.8 22H1.54l8.02-9.16L1 2h6.94l4.81 6.36L18.244 2Zm-1.19 18h1.88L7.03 4H5.02l12.034 16Z"/></svg>
             </a>
-            <a href="https://telegram.org" target="_blank" rel="noreferrer" className="glass w-10 h-10 rounded-lg flex items-center justify-center hover:text-neon hover:border-neon/50 transition-colors">
+            <a href="https://t.me/OCTOAIAGENT" target="_blank" rel="noreferrer" className="glass w-10 h-10 rounded-lg flex items-center justify-center hover:text-neon hover:border-neon/50 transition-colors">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9.78 18.65 10.06 14.42 17.74 7.5c.34-.31-.07-.46-.52-.19L7.74 13.47 3.64 12.2c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42Z"/></svg>
             </a>
           </div>

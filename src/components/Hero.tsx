@@ -75,12 +75,12 @@ export function Hero() {
           </div>
           <div className="mt-5 glass rounded-2xl px-5 py-4 max-w-2xl">
             <div className="text-[10px] font-mono tracking-[0.26em] uppercase text-muted-foreground">$OCTAGEN CA</div>
-            <div className="mt-2 text-lg sm:text-xl font-semibold text-neon tracking-[0.18em] uppercase">
-              COMING SOON
+            <div className="mt-2 text-sm sm:text-base font-semibold text-neon tracking-[0.08em] break-all">
+              0x4f6e68cf8bd6baa1e5bfd9b6812b650fe2dce93f
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
               <a
-                href="https://ponsfamily.com"
+                href="https://www.ponsfamily.com/launchpad/0x4f6e68cf8bd6baa1e5bfd9b6812b650fe2dce93f"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-neon text-primary-foreground text-sm font-mono tracking-[0.22em] uppercase hover:animate-pulse-neon transition-all"
@@ -88,7 +88,7 @@ export function Hero() {
                 BUY $OCTAGEN
               </a>
               <a
-                href="https://dexscreener.com"
+                href="https://dexscreener.com/robinhood/0x32d8bdc8b473e19be9b7c27ca37101321ca9484e"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl glass hover:border-neon/50 text-sm font-mono tracking-[0.22em] uppercase transition-all"
