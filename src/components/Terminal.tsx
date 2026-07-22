@@ -220,14 +220,25 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="glass rounded-2xl overflow-hidden border border-border/60">
-            <div className="relative h-20 sm:h-24">
+            <div className="relative h-24 sm:h-28">
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 opacity-35"
                 style={{
                   backgroundImage: `url(${banner})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  filter: "saturate(1.06) contrast(1.06) brightness(0.55)",
+                  filter: "blur(18px) saturate(1.06) contrast(1.06) brightness(0.5)",
+                  transform: "scale(1.06)",
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-85"
+                style={{
+                  backgroundImage: `url(${banner})`,
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  filter: "saturate(1.06) contrast(1.06) brightness(0.62)",
                 }}
               />
               <div className="absolute inset-0 bg-background/55" />
