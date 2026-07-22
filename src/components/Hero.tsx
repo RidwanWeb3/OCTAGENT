@@ -19,15 +19,29 @@ export function Hero() {
 
   return (
     <section ref={ref} className="relative overflow-hidden min-h-[92vh] flex items-center">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-40"
-        style={{
-          backgroundImage: `url(${banner})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "saturate(1.05) contrast(1.05) brightness(0.55)",
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage: `url(${banner})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(24px) saturate(1.05) contrast(1.05) brightness(0.5)",
+            transform: "scale(1.06)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-55"
+          style={{
+            backgroundImage: `url(${banner})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            filter: "saturate(1.06) contrast(1.05) brightness(0.62)",
+          }}
+        />
+        <div className="absolute inset-0 bg-background/55" />
+      </div>
       {/* interactive glow */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity"
