@@ -212,7 +212,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
               </div>
               <div className="text-[10px] font-mono tracking-[0.3em] text-neon uppercase mb-3">Ready</div>
               <h2 className="text-3xl font-bold">Ask Octa-Core anything.</h2>
-              <p className="text-muted-foreground mt-3">Eight minds are online · OpenRouter + Mem0 memory · type <span className="text-neon font-mono">/</span> for commands, <span className="text-neon font-mono">↑</span> for history.</p>
+              <p className="text-muted-foreground mt-3">Eight minds are synced and ready to think with you. Type <span className="text-neon font-mono">/</span> to unlock command mode, or tap <span className="text-neon font-mono">↑</span> to revisit your last signal.</p>
               <div className="mt-6 grid sm:grid-cols-2 gap-2 max-w-xl mx-auto">
                 {COMMANDS.slice(0, 6).map(c => (
                   <button key={c.k} onClick={() => send(c.k)} className="glass rounded-xl p-3 text-left hover:border-neon/40 transition group">
