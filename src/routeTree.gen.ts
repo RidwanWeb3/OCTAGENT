@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StockSymbolRouteImport } from './routes/stock.$symbol'
+import { Route as CryptoQueryRouteImport } from './routes/crypto.$query'
 import { Route as ApiTavilyRouteImport } from './routes/api/tavily'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiAiSummaryRouteImport } from './routes/api/ai-summary'
@@ -25,6 +27,16 @@ const AuthRoute = AuthRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockSymbolRoute = StockSymbolRouteImport.update({
+  id: '/stock/$symbol',
+  path: '/stock/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CryptoQueryRoute = CryptoQueryRouteImport.update({
+  id: '/crypto/$query',
+  path: '/crypto/$query',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTavilyRoute = ApiTavilyRouteImport.update({
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
   '/api/tavily': typeof ApiTavilyRoute
+  '/crypto/$query': typeof CryptoQueryRoute
+  '/stock/$symbol': typeof StockSymbolRoute
   '/api/crypto/$query': typeof ApiCryptoQueryRoute
   '/api/stock/$symbol': typeof ApiStockSymbolRoute
 }
@@ -68,6 +82,8 @@ export interface FileRoutesByTo {
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
   '/api/tavily': typeof ApiTavilyRoute
+  '/crypto/$query': typeof CryptoQueryRoute
+  '/stock/$symbol': typeof StockSymbolRoute
   '/api/crypto/$query': typeof ApiCryptoQueryRoute
   '/api/stock/$symbol': typeof ApiStockSymbolRoute
 }
@@ -78,6 +94,8 @@ export interface FileRoutesById {
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
   '/api/tavily': typeof ApiTavilyRoute
+  '/crypto/$query': typeof CryptoQueryRoute
+  '/stock/$symbol': typeof StockSymbolRoute
   '/api/crypto/$query': typeof ApiCryptoQueryRoute
   '/api/stock/$symbol': typeof ApiStockSymbolRoute
 }
@@ -89,6 +107,8 @@ export interface FileRouteTypes {
     | '/api/ai-summary'
     | '/api/chat'
     | '/api/tavily'
+    | '/crypto/$query'
+    | '/stock/$symbol'
     | '/api/crypto/$query'
     | '/api/stock/$symbol'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +118,8 @@ export interface FileRouteTypes {
     | '/api/ai-summary'
     | '/api/chat'
     | '/api/tavily'
+    | '/crypto/$query'
+    | '/stock/$symbol'
     | '/api/crypto/$query'
     | '/api/stock/$symbol'
   id:
@@ -107,6 +129,8 @@ export interface FileRouteTypes {
     | '/api/ai-summary'
     | '/api/chat'
     | '/api/tavily'
+    | '/crypto/$query'
+    | '/stock/$symbol'
     | '/api/crypto/$query'
     | '/api/stock/$symbol'
   fileRoutesById: FileRoutesById
@@ -117,6 +141,8 @@ export interface RootRouteChildren {
   ApiAiSummaryRoute: typeof ApiAiSummaryRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiTavilyRoute: typeof ApiTavilyRoute
+  CryptoQueryRoute: typeof CryptoQueryRoute
+  StockSymbolRoute: typeof StockSymbolRoute
   ApiCryptoQueryRoute: typeof ApiCryptoQueryRoute
   ApiStockSymbolRoute: typeof ApiStockSymbolRoute
 }
@@ -135,6 +161,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock/$symbol': {
+      id: '/stock/$symbol'
+      path: '/stock/$symbol'
+      fullPath: '/stock/$symbol'
+      preLoaderRoute: typeof StockSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crypto/$query': {
+      id: '/crypto/$query'
+      path: '/crypto/$query'
+      fullPath: '/crypto/$query'
+      preLoaderRoute: typeof CryptoQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/tavily': {
@@ -181,6 +221,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAiSummaryRoute: ApiAiSummaryRoute,
   ApiChatRoute: ApiChatRoute,
   ApiTavilyRoute: ApiTavilyRoute,
+  CryptoQueryRoute: CryptoQueryRoute,
+  StockSymbolRoute: StockSymbolRoute,
   ApiCryptoQueryRoute: ApiCryptoQueryRoute,
   ApiStockSymbolRoute: ApiStockSymbolRoute,
 }
