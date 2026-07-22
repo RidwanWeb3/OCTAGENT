@@ -1,4 +1,5 @@
 import mascot from "@/assets/octagen mascot.png";
+import banner from "@/assets/octagen-banner.jpeg";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -195,9 +196,9 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
-              src={mascot}
-              alt="OCTAGEN"
-              className={`w-8 h-8 drop-shadow-[0_0_14px_oklch(0.86_0.28_138_/_0.55)] transition-transform ${busy ? "animate-pulse-neon" : "hover:scale-110"}`}
+              src={banner}
+              alt="OCTAGEN banner"
+              className={`h-8 w-[104px] sm:w-[132px] rounded-lg object-cover object-center ring-1 ring-border/60 drop-shadow-[0_0_16px_oklch(0.86_0.28_138_/_0.35)] transition-transform ${busy ? "animate-pulse-neon" : "hover:scale-[1.02]"}`}
             />
             <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-border bg-neon ${busy ? "animate-pulse" : "opacity-70"}`} />
           </div>
