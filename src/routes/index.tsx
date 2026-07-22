@@ -6,6 +6,7 @@ import { MarketGrid } from "@/components/MarketGrid";
 import { OctaCore } from "@/components/OctaCore";
 import { ActivityFeed } from "@/components/ActivityFeed";
 import { Footer } from "@/components/Footer";
+import { StockMarketGrid } from "@/components/StockMarketGrid";
 import banner from "@/assets/octagen-banner.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -34,6 +35,7 @@ function Index() {
         <Hero />
         <MarketTicker />
         <MarketGrid />
+        <StockMarketGrid />
         <OctaCore />
         <div id="minds" />
         <ActivityFeed />
