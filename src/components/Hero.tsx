@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import mascot from "@/assets/octagen-mascot.png.asset.json";
+import mascot from "@/assets/octagen mascot.png";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,12 +41,12 @@ export function Hero() {
             Eight minds. One consciousness. Infinite intelligence. OCTAGEN is a living AI operating system that scans markets, executes strategies, and defends your world in real time.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <a href="#markets" className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-neon text-primary-foreground font-semibold tracking-wide hover:animate-pulse-neon transition-all">
-              Launch AI
+            <a href="#markets" className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-neon text-primary-foreground text-sm font-mono tracking-[0.24em] uppercase hover:animate-pulse-neon transition-all">
+              MEET THE OCTAGEN
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </a>
-            <a href="#markets" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl glass hover:border-neon/50 font-semibold tracking-wide transition-all">
-              Explore Markets
+            <a href="#markets" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl glass hover:border-neon/50 text-sm font-mono tracking-[0.24em] uppercase transition-all">
+              EXPLORE MARKETS
             </a>
           </div>
           <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
@@ -68,7 +68,7 @@ export function Hero() {
           <div className="absolute inset-0 rounded-full border border-neon/20 animate-orbit" />
           <div className="absolute inset-12 rounded-full border border-neon/10" style={{ animation: "orbit 30s linear infinite reverse" }} />
           <img
-            src={mascot.url}
+            src={mascot}
             alt="OCTAGEN mascot — Octa-Core intelligence"
             className="relative w-full h-full object-contain animate-float drop-shadow-[0_0_60px_oklch(0.86_0.28_138_/_0.55)]"
           />

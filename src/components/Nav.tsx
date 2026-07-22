@@ -1,4 +1,4 @@
-import mascot from "@/assets/octagen-mascot.png.asset.json";
+import mascot from "@/assets/octagen mascot.png";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -49,7 +49,7 @@ export function Nav() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/60 border-b border-border/40">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={mascot.url} alt="OCTAGEN" className="w-8 h-8 drop-shadow-[0_0_12px_oklch(0.86_0.28_138_/_0.6)] group-hover:scale-110 transition-transform" />
+            <img src={mascot} alt="OCTAGEN" className="w-8 h-8 drop-shadow-[0_0_12px_oklch(0.86_0.28_138_/_0.6)] group-hover:scale-110 transition-transform" />
             <span className="font-bold tracking-[0.2em] text-sm">OCTAGEN</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
@@ -63,8 +63,8 @@ export function Nav() {
             <button onClick={() => setSearch(true)} className="hidden sm:inline-flex items-center gap-2 text-xs font-mono text-muted-foreground border border-border rounded-lg px-3 py-1.5 hover:border-neon/40 hover:text-foreground transition">
               <span>⌕ Search</span><kbd className="text-[9px] opacity-60">⌘K</kbd>
             </button>
-            <button onClick={openTerminal} className="text-xs font-mono tracking-widest px-4 py-2 rounded-lg bg-neon text-primary-foreground hover:animate-pulse-neon transition-all">
-              LAUNCH AI
+            <button onClick={openTerminal} className="text-xs font-mono tracking-[0.24em] uppercase px-4 py-2 rounded-lg bg-neon text-primary-foreground hover:animate-pulse-neon transition-all">
+              MEET THE OCTAGEN
             </button>
             {user ? (
               <div ref={menuRef} className="relative hidden sm:block">

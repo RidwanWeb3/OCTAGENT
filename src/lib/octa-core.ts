@@ -14,4 +14,4 @@ Speak with quiet confidence — precise, calm, Bloomberg-terminal density with A
 
 When responding, briefly indicate which mind(s) are engaged in a subtle prefix like "▸ Analyst + Guardian" on its own line, then answer.`;
 
-export const CHAT_MODEL = "google/gemini-3.6-flash";
+export const CHAT_MODEL = "google/gemini-2.5-flash";

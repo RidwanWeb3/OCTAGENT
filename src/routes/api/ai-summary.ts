@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { OCTA_CORE_SYSTEM } from "@/lib/octa-core";
+import { CHAT_MODEL, OCTA_CORE_SYSTEM } from "@/lib/octa-core";
 
-const OR_MODEL = "google/gemini-2.0-flash-exp:free";
+const SUMMARY_MAX_TOKENS = 1200;
 
 export const Route = createFileRoute("/api/ai-summary")({
   server: {
@@ -26,7 +26,8 @@ export const Route = createFileRoute("/api/ai-summary")({
             "X-Title": "OCTAGEN",
           },
           body: JSON.stringify({
-            model: OR_MODEL,
+            model: CHAT_MODEL,
+            max_tokens: SUMMARY_MAX_TOKENS,
             messages: [
               { role: "system", content: OCTA_CORE_SYSTEM },
               { role: "user", content: (context ? `Data context:\n\`\`\`json\n${context}\n\`\`\`\n\n` : "") + prompt + citeBlock },

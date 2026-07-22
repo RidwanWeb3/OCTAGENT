@@ -1,4 +1,4 @@
-import mascot from "@/assets/octagen-mascot.png.asset.json";
+import mascot from "@/assets/octagen mascot.png";
 
 export function Footer() {
   return (
@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
         <div>
           <div className="flex items-center gap-2.5 mb-4">
-            <img src={mascot.url} alt="OCTAGEN" className="w-8 h-8" />
+            <img src={mascot} alt="OCTAGEN" className="w-8 h-8" />
             <span className="font-bold tracking-[0.2em] text-sm">OCTAGEN</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-xs">

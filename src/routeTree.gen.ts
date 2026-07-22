@@ -9,50 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as StockSymbolRouteImport } from './routes/stock.$symbol'
-import { Route as CryptoQueryRouteImport } from './routes/crypto.$query'
-import { Route as ApiTavilyRouteImport } from './routes/api/tavily'
-import { Route as ApiStocksMarketRouteImport } from './routes/api/stocks-market'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ApiAiSummaryRouteImport } from './routes/api/ai-summary'
-import { Route as ApiStockSymbolRouteImport } from './routes/api/stock.$symbol'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiCryptoMarketRouteImport } from './routes/api/crypto-market'
+import { Route as ApiStocksMarketRouteImport } from './routes/api/stocks-market'
+import { Route as ApiTavilyRouteImport } from './routes/api/tavily'
+import { Route as CryptoQueryRouteImport } from './routes/crypto.$query'
+import { Route as StockSymbolRouteImport } from './routes/stock.$symbol'
 import { Route as ApiCryptoQueryRouteImport } from './routes/api/crypto.$query'
+import { Route as ApiStockSymbolRouteImport } from './routes/api/stock.$symbol'
 
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StockSymbolRoute = StockSymbolRouteImport.update({
-  id: '/stock/$symbol',
-  path: '/stock/$symbol',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CryptoQueryRoute = CryptoQueryRouteImport.update({
-  id: '/crypto/$query',
-  path: '/crypto/$query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiTavilyRoute = ApiTavilyRouteImport.update({
-  id: '/api/tavily',
-  path: '/api/tavily',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiStocksMarketRoute = ApiStocksMarketRouteImport.update({
-  id: '/api/stocks-market',
-  path: '/api/stocks-market',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAiSummaryRoute = ApiAiSummaryRouteImport.update({
@@ -60,14 +36,44 @@ const ApiAiSummaryRoute = ApiAiSummaryRouteImport.update({
   path: '/api/ai-summary',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiStockSymbolRoute = ApiStockSymbolRouteImport.update({
-  id: '/api/stock/$symbol',
-  path: '/api/stock/$symbol',
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCryptoMarketRoute = ApiCryptoMarketRouteImport.update({
+  id: '/api/crypto-market',
+  path: '/api/crypto-market',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStocksMarketRoute = ApiStocksMarketRouteImport.update({
+  id: '/api/stocks-market',
+  path: '/api/stocks-market',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTavilyRoute = ApiTavilyRouteImport.update({
+  id: '/api/tavily',
+  path: '/api/tavily',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CryptoQueryRoute = CryptoQueryRouteImport.update({
+  id: '/crypto/$query',
+  path: '/crypto/$query',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockSymbolRoute = StockSymbolRouteImport.update({
+  id: '/stock/$symbol',
+  path: '/stock/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCryptoQueryRoute = ApiCryptoQueryRouteImport.update({
   id: '/api/crypto/$query',
   path: '/api/crypto/$query',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStockSymbolRoute = ApiStockSymbolRouteImport.update({
+  id: '/api/stock/$symbol',
+  path: '/api/stock/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/crypto-market': typeof ApiCryptoMarketRoute
   '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/crypto-market': typeof ApiCryptoMarketRoute
   '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/crypto-market': typeof ApiCryptoMarketRoute
   '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/crypto-market'
     | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/crypto-market'
     | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/crypto-market'
     | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ApiAiSummaryRoute: typeof ApiAiSummaryRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiCryptoMarketRoute: typeof ApiCryptoMarketRoute
   ApiStocksMarketRoute: typeof ApiStocksMarketRoute
   ApiTavilyRoute: typeof ApiTavilyRoute
   CryptoQueryRoute: typeof CryptoQueryRoute
@@ -162,13 +175,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -176,39 +182,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/stock/$symbol': {
-      id: '/stock/$symbol'
-      path: '/stock/$symbol'
-      fullPath: '/stock/$symbol'
-      preLoaderRoute: typeof StockSymbolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crypto/$query': {
-      id: '/crypto/$query'
-      path: '/crypto/$query'
-      fullPath: '/crypto/$query'
-      preLoaderRoute: typeof CryptoQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/tavily': {
-      id: '/api/tavily'
-      path: '/api/tavily'
-      fullPath: '/api/tavily'
-      preLoaderRoute: typeof ApiTavilyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/stocks-market': {
-      id: '/api/stocks-market'
-      path: '/api/stocks-market'
-      fullPath: '/api/stocks-market'
-      preLoaderRoute: typeof ApiStocksMarketRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/ai-summary': {
@@ -218,11 +196,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAiSummaryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/stock/$symbol': {
-      id: '/api/stock/$symbol'
-      path: '/api/stock/$symbol'
-      fullPath: '/api/stock/$symbol'
-      preLoaderRoute: typeof ApiStockSymbolRouteImport
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/crypto-market': {
+      id: '/api/crypto-market'
+      path: '/api/crypto-market'
+      fullPath: '/api/crypto-market'
+      preLoaderRoute: typeof ApiCryptoMarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/stocks-market': {
+      id: '/api/stocks-market'
+      path: '/api/stocks-market'
+      fullPath: '/api/stocks-market'
+      preLoaderRoute: typeof ApiStocksMarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tavily': {
+      id: '/api/tavily'
+      path: '/api/tavily'
+      fullPath: '/api/tavily'
+      preLoaderRoute: typeof ApiTavilyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crypto/$query': {
+      id: '/crypto/$query'
+      path: '/crypto/$query'
+      fullPath: '/crypto/$query'
+      preLoaderRoute: typeof CryptoQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock/$symbol': {
+      id: '/stock/$symbol'
+      path: '/stock/$symbol'
+      fullPath: '/stock/$symbol'
+      preLoaderRoute: typeof StockSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/crypto/$query': {
@@ -230,6 +243,13 @@ declare module '@tanstack/react-router' {
       path: '/api/crypto/$query'
       fullPath: '/api/crypto/$query'
       preLoaderRoute: typeof ApiCryptoQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/stock/$symbol': {
+      id: '/api/stock/$symbol'
+      path: '/api/stock/$symbol'
+      fullPath: '/api/stock/$symbol'
+      preLoaderRoute: typeof ApiStockSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ApiAiSummaryRoute: ApiAiSummaryRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiCryptoMarketRoute: ApiCryptoMarketRoute,
   ApiStocksMarketRoute: ApiStocksMarketRoute,
   ApiTavilyRoute: ApiTavilyRoute,
   CryptoQueryRoute: CryptoQueryRoute,
@@ -250,3 +271,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -1,4 +1,4 @@
-import mascot from "@/assets/octagen-mascot.png.asset.json";
+import mascot from "@/assets/octagen mascot.png";
 
 const MINDS = [
   { name: "Analyst", desc: "Processes market & on-chain data in real time." },
@@ -36,7 +36,7 @@ export function OctaCore() {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative">
               <div className="absolute inset-0 rounded-full blur-3xl bg-neon/40 animate-pulse-neon" />
-              <img src={mascot.url} alt="Octa-Core" className="relative w-48 md:w-64 animate-float drop-shadow-[0_0_40px_oklch(0.86_0.28_138_/_0.6)]" />
+              <img src={mascot} alt="Octa-Core" className="relative w-48 md:w-64 animate-float drop-shadow-[0_0_40px_oklch(0.86_0.28_138_/_0.6)]" />
             </div>
           </div>
 

@@ -3,6 +3,7 @@
 // Use this for admin operations in server functions and server routes only.
 // For user-authenticated queries (with RLS), use the auth middleware instead.
 import { createClient } from '@supabase/supabase-js';
+import { validateSupabaseConfig } from './config';
 import type { Database } from './types';
 
 function isNewSupabaseApiKey(value: string): boolean {
@@ -32,6 +33,7 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 function createSupabaseAdminClient() {
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const SUPABASE_PROJECT_ID = process.env.SUPABASE_PROJECT_ID;
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     const missing = [
@@ -42,6 +44,14 @@ function createSupabaseAdminClient() {
     console.error(`[Supabase] ${message}`);
     throw new Error(message);
   }
+
+  validateSupabaseConfig({
+    url: SUPABASE_URL,
+    key: SUPABASE_SERVICE_ROLE_KEY,
+    projectId: SUPABASE_PROJECT_ID,
+    keyEnvName: 'SUPABASE_SERVICE_ROLE_KEY',
+    projectIdEnvName: 'SUPABASE_PROJECT_ID',
+  });
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     global: {

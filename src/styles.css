@@ -78,11 +78,9 @@
   body {
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, oklch(0.86 0.28 138 / 0.15), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 30%, oklch(0.72 0.24 140 / 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 0% 70%, oklch(0.72 0.24 140 / 0.06), transparent 60%);
+    background-image: linear-gradient(180deg, oklch(0.08 0.015 150), oklch(0.11 0.02 150));
     background-attachment: fixed;
+    overflow-x: hidden;
   }
   ::selection { background: oklch(0.86 0.28 138 / 0.35); color: var(--color-foreground); }
 }
@@ -113,6 +111,35 @@
 @keyframes grid-drift {
   from { background-position: 0 0; } to { background-position: 60px 60px; }
 }
+@keyframes backdrop-drift {
+  0% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+    background-position: 50% 0%;
+  }
+  50% {
+    transform: scale(1.1) translate3d(-1.5%, -1%, 0);
+    background-position: 54% 35%;
+  }
+  100% {
+    transform: scale(1.08) translate3d(1.5%, 1.5%, 0);
+    background-position: 48% 100%;
+  }
+}
+@keyframes mist-float-a {
+  0% { transform: translate3d(-6%, -4%, 0) scale(1); }
+  50% { transform: translate3d(6%, 3%, 0) scale(1.08); }
+  100% { transform: translate3d(-2%, 8%, 0) scale(0.96); }
+}
+@keyframes mist-float-b {
+  0% { transform: translate3d(8%, 0, 0) scale(1.02); }
+  50% { transform: translate3d(-4%, -8%, 0) scale(0.94); }
+  100% { transform: translate3d(5%, 5%, 0) scale(1.06); }
+}
+@keyframes beam-sweep {
+  0% { transform: translate3d(-18%, -12%, 0) rotate(-8deg); opacity: 0.18; }
+  50% { transform: translate3d(8%, 8%, 0) rotate(-2deg); opacity: 0.28; }
+  100% { transform: translate3d(-6%, 18%, 0) rotate(6deg); opacity: 0.14; }
+}
 @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
@@ -134,4 +161,132 @@
 
 .mask-fade-x {
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.page-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.site-backdrop__image,
+.site-backdrop__veil,
+.site-backdrop__mist,
+.site-backdrop__beam,
+.site-backdrop__grid {
+  position: absolute;
+  inset: 0;
+}
+
+.site-backdrop__image {
+  inset: -8%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: saturate(1.08) contrast(1.04) brightness(0.52);
+  opacity: 0.22;
+  transform: scale(1.06);
+  animation: backdrop-drift 36s ease-in-out infinite alternate;
+}
+
+.site-backdrop__veil {
+  background:
+    linear-gradient(180deg, oklch(0.06 0.015 150 / 0.34), oklch(0.08 0.02 150 / 0.66) 42%, oklch(0.08 0.018 150 / 0.9)),
+    radial-gradient(ellipse 80% 62% at 50% -8%, oklch(0.86 0.28 138 / 0.16), transparent 60%),
+    radial-gradient(ellipse 54% 46% at 90% 30%, oklch(0.72 0.24 140 / 0.10), transparent 60%),
+    radial-gradient(ellipse 56% 46% at 10% 74%, oklch(0.72 0.24 140 / 0.07), transparent 60%);
+}
+
+.site-backdrop__mist {
+  inset: auto;
+  width: 46vw;
+  height: 46vw;
+  min-width: 320px;
+  min-height: 320px;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.2;
+  mix-blend-mode: screen;
+}
+
+.site-backdrop__mist--one {
+  top: -10vh;
+  left: -10vw;
+  background: radial-gradient(circle, oklch(0.88 0.29 135 / 0.24), transparent 64%);
+  animation: mist-float-a 22s ease-in-out infinite alternate;
+}
+
+.site-backdrop__mist--two {
+  right: -14vw;
+  bottom: -18vh;
+  background: radial-gradient(circle, oklch(0.72 0.24 140 / 0.2), transparent 62%);
+  animation: mist-float-b 28s ease-in-out infinite alternate;
+}
+
+.site-backdrop__beam {
+  inset: -18% -12%;
+  background:
+    linear-gradient(120deg, transparent 18%, oklch(0.86 0.28 138 / 0.09) 42%, transparent 68%),
+    linear-gradient(180deg, transparent, oklch(0.88 0.29 135 / 0.05), transparent);
+  filter: blur(24px);
+  mix-blend-mode: screen;
+  animation: beam-sweep 20s ease-in-out infinite alternate;
+}
+
+.site-backdrop__grid {
+  background-image:
+    linear-gradient(oklch(0.86 0.28 138 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.86 0.28 138 / 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black 34%, transparent 86%);
+  opacity: 0.28;
+  animation: grid-drift 26s linear infinite;
+}
+
+.site-backdrop--landing .site-backdrop__image {
+  opacity: 0.42;
+  filter: saturate(1.18) contrast(1.08) brightness(0.6);
+  animation-duration: 30s;
+}
+
+.site-backdrop--landing .site-backdrop__mist {
+  opacity: 0.28;
+}
+
+.site-backdrop--landing .site-backdrop__beam {
+  opacity: 0.95;
+}
+
+.site-backdrop--landing .site-backdrop__grid {
+  opacity: 0.34;
+}
+
+.site-backdrop--subtle .site-backdrop__image {
+  opacity: 0.16;
+  filter: saturate(0.96) blur(2px) brightness(0.44);
+  animation-duration: 42s;
+}
+
+.site-backdrop--subtle .site-backdrop__mist {
+  opacity: 0.12;
+}
+
+.site-backdrop--subtle .site-backdrop__beam {
+  opacity: 0.52;
+}
+
+.site-backdrop--subtle .site-backdrop__grid {
+  opacity: 0.14;
 }

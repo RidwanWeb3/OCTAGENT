@@ -22,8 +22,7 @@ export function useCryptoMarkets(pollMs = 45000) {
     let alive = true;
     const load = async () => {
       try {
-        const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${COINS}&order=market_cap_desc&per_page=10&page=1&sparkline=true&price_change_percentage=24h`;
-        const res = await fetch(url);
+        const res = await fetch("/api/crypto-market");
         if (!res.ok) throw new Error(`CoinGecko ${res.status}`);
         const json = (await res.json()) as CryptoCoin[];
         if (alive) { setData(json); setError(null); }

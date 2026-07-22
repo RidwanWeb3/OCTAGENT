@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { OCTA_CORE_SYSTEM } from "@/lib/octa-core";
+import { CHAT_MODEL, OCTA_CORE_SYSTEM } from "@/lib/octa-core";
 
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
-const OR_MODEL = "google/gemini-2.0-flash-exp:free";
+const CHAT_MAX_TOKENS = 2048;
 const MEM0_URL = "https://api.mem0.ai/v1";
 
 async function mem0Search(userId: string, query: string, key: string) {
@@ -57,7 +57,8 @@ export const Route = createFileRoute("/api/chat")({
             "X-Title": "OCTAGEN",
           },
           body: JSON.stringify({
-            model: OR_MODEL,
+            model: CHAT_MODEL,
+            max_tokens: CHAT_MAX_TOKENS,
             stream: true,
             messages: [{ role: "system", content: OCTA_CORE_SYSTEM + memoryBlock }, ...messages],
           }),

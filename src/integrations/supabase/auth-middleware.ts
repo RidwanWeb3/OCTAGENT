@@ -2,6 +2,7 @@
 import { createMiddleware } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { createClient } from '@supabase/supabase-js'
+import { validateSupabaseConfig } from './config'
 import type { Database } from './types'
 
 
@@ -35,6 +36,7 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
     
     const SUPABASE_URL = process.env.SUPABASE_URL;
     const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+    const SUPABASE_PROJECT_ID = process.env.SUPABASE_PROJECT_ID;
 
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
       const missing = [
@@ -45,6 +47,14 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
       console.error(`[Supabase] ${message}`);
       throw new Error(message);
     }
+
+    validateSupabaseConfig({
+      url: SUPABASE_URL,
+      key: SUPABASE_PUBLISHABLE_KEY,
+      projectId: SUPABASE_PROJECT_ID,
+      keyEnvName: 'SUPABASE_PUBLISHABLE_KEY',
+      projectIdEnvName: 'SUPABASE_PROJECT_ID',
+    });
     
     const request = getRequest();
 

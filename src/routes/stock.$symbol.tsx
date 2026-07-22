@@ -6,6 +6,7 @@ import { Sparkline } from "@/components/Sparkline";
 import { formatUsd } from "@/lib/market";
 import { RequireAuth } from "@/components/RequireAuth";
 import { RiskBreakdown, Citations, type RiskFactor } from "@/components/RiskBreakdown";
+import { SiteBackdrop } from "@/components/SiteBackdrop";
 
 export const Route = createFileRoute("/stock/$symbol")({
   component: () => <RequireAuth><StockPage /></RequireAuth>,
@@ -103,7 +104,9 @@ function StockPage() {
   }
 
   return (
-    <div className="dark min-h-screen">
+    <div className="page-shell page-shell--subtle dark min-h-screen">
+      <SiteBackdrop variant="subtle" />
+      <div className="page-content">
       <Nav />
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
@@ -117,7 +120,7 @@ function StockPage() {
           </div>
           <form onSubmit={(e) => { e.preventDefault(); if (input.trim()) nav({ to: "/stock/$symbol", params: { symbol: input.trim().toUpperCase() } }); }} className="flex gap-2">
             <input value={input} onChange={e=>setInput(e.target.value.toUpperCase())} placeholder="Ticker (e.g. NVDA)" className="bg-background/60 border border-border rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:border-neon/50" />
-            <button className="px-4 py-2 rounded-lg bg-neon text-primary-foreground text-sm font-semibold">Scan</button>
+            <button className="px-4 py-2 rounded-lg bg-neon text-primary-foreground text-sm font-mono tracking-[0.18em] uppercase">Scan</button>
           </form>
         </div>
 
@@ -167,8 +170,8 @@ function StockPage() {
             <div className="lg:col-span-3 glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Octa-Core AI Analysis</h2>
-                <button onClick={runAI} disabled={aiBusy} className="text-xs font-mono px-4 py-2 rounded-lg bg-neon text-primary-foreground disabled:opacity-50 hover:animate-pulse-neon">
-                  {aiBusy ? "Strategist working…" : ai ? "Regenerate" : "Run Analysis"}
+                <button onClick={runAI} disabled={aiBusy} className="text-xs font-mono tracking-[0.18em] uppercase px-4 py-2 rounded-lg bg-neon text-primary-foreground disabled:opacity-50 hover:animate-pulse-neon">
+                  {aiBusy ? "Strategist Working…" : ai ? "Regenerate" : "Run Analysis"}
                 </button>
               </div>
               {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Fundamentals + technicals synthesized with inline citations to Finnhub & FMP.</p>}
@@ -201,6 +204,7 @@ function StockPage() {
         <div className="mt-8"><Link to="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">← Home</Link></div>
       </main>
       <Footer />
+      </div>
     </div>
   );
 }

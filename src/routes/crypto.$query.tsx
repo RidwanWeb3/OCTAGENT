@@ -6,6 +6,7 @@ import { Sparkline } from "@/components/Sparkline";
 import { formatUsd } from "@/lib/market";
 import { RequireAuth } from "@/components/RequireAuth";
 import { RiskBreakdown, Citations, type RiskFactor } from "@/components/RiskBreakdown";
+import { SiteBackdrop } from "@/components/SiteBackdrop";
 
 export const Route = createFileRoute("/crypto/$query")({
   component: () => <RequireAuth><CryptoPage /></RequireAuth>,
@@ -97,7 +98,9 @@ function CryptoPage() {
   }
 
   return (
-    <div className="dark min-h-screen">
+    <div className="page-shell page-shell--subtle dark min-h-screen">
+      <SiteBackdrop variant="subtle" />
+      <div className="page-content">
       <Nav />
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
@@ -108,7 +111,7 @@ function CryptoPage() {
           </div>
           <form onSubmit={(e) => { e.preventDefault(); if (input.trim()) nav({ to: "/crypto/$query", params: { query: input.trim() } }); }} className="flex gap-2">
             <input value={input} onChange={e=>setInput(e.target.value)} placeholder="Symbol or 0x… address" className="bg-background/60 border border-border rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:border-neon/50" />
-            <button className="px-4 py-2 rounded-lg bg-neon text-primary-foreground text-sm font-semibold">Scan</button>
+            <button className="px-4 py-2 rounded-lg bg-neon text-primary-foreground text-sm font-mono tracking-[0.18em] uppercase">Scan</button>
           </form>
         </div>
 
@@ -152,8 +155,8 @@ function CryptoPage() {
             <div className="lg:col-span-3 glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Octa-Core AI Analysis</h2>
-                <button onClick={runAI} disabled={aiBusy} className="text-xs font-mono px-4 py-2 rounded-lg bg-neon text-primary-foreground disabled:opacity-50 hover:animate-pulse-neon">
-                  {aiBusy ? "Analyst working…" : ai ? "Regenerate" : "Run Analysis"}
+                <button onClick={runAI} disabled={aiBusy} className="text-xs font-mono tracking-[0.18em] uppercase px-4 py-2 rounded-lg bg-neon text-primary-foreground disabled:opacity-50 hover:animate-pulse-neon">
+                  {aiBusy ? "Analyst Working…" : ai ? "Regenerate" : "Run Analysis"}
                 </button>
               </div>
               {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Run Analyst + Guardian to score risk and synthesize on-chain signals with inline citations.</p>}
@@ -187,6 +190,7 @@ function CryptoPage() {
         <div className="hidden"><Sparkline data={[]} up /></div>
       </main>
       <Footer />
+      </div>
     </div>
   );
 }
