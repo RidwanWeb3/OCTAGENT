@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import mascot from "@/assets/octagen mascot.png";
+import banner from "@/assets/octagen-banner.jpeg";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -18,6 +19,15 @@ export function Hero() {
 
   return (
     <section ref={ref} className="relative overflow-hidden min-h-[92vh] flex items-center">
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: `url(${banner})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "saturate(1.05) contrast(1.05) brightness(0.55)",
+        }}
+      />
       {/* interactive glow */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity"

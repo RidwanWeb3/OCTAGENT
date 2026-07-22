@@ -5,19 +5,19 @@ import { useAuth } from "@/hooks/useAuth";
 type Msg = { role: "user" | "assistant"; content: string };
 
 const COMMANDS = [
-  { k: "/analyze BTC", d: "Deep-dive on Bitcoin" },
-  { k: "/analyze ETH", d: "Deep-dive on Ethereum" },
-  { k: "/scan solana ecosystem", d: "Explorer + Analyst sweep" },
-  { k: "/risk PEPE", d: "Guardian rug + liquidity check" },
-  { k: "/strategy defensive", d: "Strategist portfolio plan" },
-  { k: "/strategy aggressive", d: "Higher-beta strategist plan" },
-  { k: "/news AI stocks", d: "Analyst news synthesis" },
-  { k: "/news crypto", d: "Latest crypto flows" },
-  { k: "/valuation NVDA", d: "Equity valuation brief" },
-  { k: "/compare BTC ETH", d: "Comparative analysis" },
-  { k: "/crypto <symbol | address | dexscreener-url>", d: "DEX token analysis" },
-  { k: "/stock <ticker>", d: "Equity analysis" },
-  { k: "/memory", d: "What Octa-Core remembers about me" },
+  { k: "/analyze BTC", d: "Deep-dive on Bitcoin", cat: "crypto" as const },
+  { k: "/analyze ETH", d: "Deep-dive on Ethereum", cat: "crypto" as const },
+  { k: "/scan solana ecosystem", d: "Explorer + Analyst sweep", cat: "crypto" as const },
+  { k: "/risk PEPE", d: "Guardian rug + liquidity check", cat: "crypto" as const },
+  { k: "/strategy defensive", d: "Strategist portfolio plan", cat: "general" as const },
+  { k: "/strategy aggressive", d: "Higher-beta strategist plan", cat: "general" as const },
+  { k: "/news AI stocks", d: "Analyst news synthesis", cat: "stock" as const },
+  { k: "/news crypto", d: "Latest crypto flows", cat: "crypto" as const },
+  { k: "/valuation NVDA", d: "Equity valuation brief", cat: "stock" as const },
+  { k: "/compare BTC ETH", d: "Comparative analysis", cat: "crypto" as const },
+  { k: "/crypto <symbol | address | dexscreener-url>", d: "DEX token analysis", cat: "crypto" as const },
+  { k: "/stock <ticker>", d: "Equity analysis", cat: "stock" as const },
+  { k: "/memory", d: "What Octa-Core remembers about me", cat: "general" as const },
 ];
 
 const HISTORY_KEY = "octagen.terminal.history.v1";
@@ -64,6 +64,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
   const { user } = useAuth();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [mode, setMode] = useState<"crypto" | "stock">("crypto");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
@@ -104,6 +105,18 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
     return [...hist, ...cmd].slice(0, 8);
   }, [input, history]);
 
+  function inferMode(text: string): "crypto" | "stock" | null {
+    const t = text.trim().toLowerCase();
+    if (t.startsWith("/stock")) return "stock";
+    if (t.startsWith("/crypto")) return "crypto";
+    return null;
+  }
+
+  const quickCommands = useMemo(() => {
+    const base = COMMANDS.filter(c => c.cat === mode || c.cat === "general");
+    return base.slice(0, 6);
+  }, [mode]);
+
   function pushHistory(text: string) {
     setHistory(prev => {
       const next = [text, ...prev.filter(h => h !== text)].slice(0, 50);
@@ -116,6 +129,8 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
   async function send(text?: string) {
     const content = (text ?? input).trim();
     if (!content || busy) return;
+    const inferred = inferMode(content);
+    if (inferred) setMode(inferred);
     setErr(null);
     setInput("");
     setSuggestOpen(false);
@@ -217,20 +232,20 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
               <p className="text-muted-foreground mt-3">Eight minds are synced and ready to think with you. Type <span className="text-neon font-mono">/</span> to unlock command mode, or tap <span className="text-neon font-mono">↑</span> to revisit your last signal.</p>
               <div className="mt-6 flex flex-wrap justify-center gap-2">
                 <button
-                  onClick={() => { setInput("/crypto "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
-                  className="px-5 py-2.5 rounded-xl bg-neon text-primary-foreground text-xs font-mono tracking-[0.22em] uppercase hover:animate-pulse-neon transition-all"
+                  onClick={() => { setMode("crypto"); setInput("/crypto "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "crypto" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
                 >
                   Analyze Crypto
                 </button>
                 <button
-                  onClick={() => { setInput("/stock "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
-                  className="px-5 py-2.5 rounded-xl glass hover:border-neon/50 text-xs font-mono tracking-[0.22em] uppercase transition-all"
+                  onClick={() => { setMode("stock"); setInput("/stock "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "stock" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
                 >
                   Analyze Stock
                 </button>
               </div>
               <div className="mt-6 grid sm:grid-cols-2 gap-2 max-w-xl mx-auto">
-                {COMMANDS.slice(0, 6).map(c => (
+                {quickCommands.map(c => (
                   <button key={c.k} onClick={() => send(c.k)} className="glass rounded-xl p-3 text-left hover:border-neon/40 transition group">
                     <div className="font-mono text-xs text-neon">{c.k}</div>
                     <div className="text-xs text-muted-foreground mt-1">{c.d}</div>
@@ -297,7 +312,15 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
               ref={inputRef}
               autoFocus
               value={input}
-              onChange={(e) => { setInput(e.target.value); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); }}
+              onChange={(e) => {
+                const v = e.target.value;
+                setInput(v);
+                const inferred = inferMode(v);
+                if (inferred) setMode(inferred);
+                setSuggestOpen(true);
+                setSuggestIdx(0);
+                setHistIdx(-1);
+              }}
               onFocus={() => { if (input) setSuggestOpen(true); }}
               onBlur={() => setTimeout(() => setSuggestOpen(false), 100)}
               onKeyDown={onKeyDown}
