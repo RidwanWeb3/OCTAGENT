@@ -160,6 +160,10 @@ function StockPage() {
               <Metric label="Website" value={p?.website ? <a href={p.website} target="_blank" rel="noreferrer" className="text-neon hover:underline">{p.website.replace(/^https?:\/\//,"")}</a> : "—"} />
             </div>
 
+            <div className="lg:col-span-3">
+              <RiskBreakdown factors={riskFactors} title="Guardian · Transparent Risk Breakdown" />
+            </div>
+
             <div className="lg:col-span-3 glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Octa-Core AI Analysis</h2>
@@ -167,9 +171,14 @@ function StockPage() {
                   {aiBusy ? "Strategist working…" : ai ? "Regenerate" : "Run Analysis"}
                 </button>
               </div>
-              {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Fundamentals + technicals synthesized into a support/resistance and valuation read.</p>}
+              {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Fundamentals + technicals synthesized with inline citations to Finnhub & FMP.</p>}
               {aiBusy && <div className="animate-pulse text-sm text-muted-foreground">Eight minds converging…</div>}
-              {ai && <div className="prose prose-invert prose-sm max-w-none whitespace-pre-wrap text-sm leading-relaxed">{ai}</div>}
+              {ai && (
+                <>
+                  <div className="prose prose-invert prose-sm max-w-none whitespace-pre-wrap text-sm leading-relaxed">{ai}</div>
+                  <Citations items={citations} />
+                </>
+              )}
             </div>
 
             {d.news?.length > 0 && (
