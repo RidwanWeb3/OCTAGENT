@@ -15,6 +15,8 @@ const COMMANDS = [
   { k: "/news crypto", d: "Latest crypto flows" },
   { k: "/valuation NVDA", d: "Equity valuation brief" },
   { k: "/compare BTC ETH", d: "Comparative analysis" },
+  { k: "/crypto <symbol | address | dexscreener-url>", d: "DEX token analysis" },
+  { k: "/stock <ticker>", d: "Equity analysis" },
   { k: "/memory", d: "What Octa-Core remembers about me" },
 ];
 
@@ -213,6 +215,20 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
               <div className="text-[10px] font-mono tracking-[0.3em] text-neon uppercase mb-3">Ready</div>
               <h2 className="text-3xl font-bold">Ask Octa-Core anything.</h2>
               <p className="text-muted-foreground mt-3">Eight minds are synced and ready to think with you. Type <span className="text-neon font-mono">/</span> to unlock command mode, or tap <span className="text-neon font-mono">↑</span> to revisit your last signal.</p>
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
+                <button
+                  onClick={() => { setInput("/crypto "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
+                  className="px-5 py-2.5 rounded-xl bg-neon text-primary-foreground text-xs font-mono tracking-[0.22em] uppercase hover:animate-pulse-neon transition-all"
+                >
+                  Analyze Crypto
+                </button>
+                <button
+                  onClick={() => { setInput("/stock "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
+                  className="px-5 py-2.5 rounded-xl glass hover:border-neon/50 text-xs font-mono tracking-[0.22em] uppercase transition-all"
+                >
+                  Analyze Stock
+                </button>
+              </div>
               <div className="mt-6 grid sm:grid-cols-2 gap-2 max-w-xl mx-auto">
                 {COMMANDS.slice(0, 6).map(c => (
                   <button key={c.k} onClick={() => send(c.k)} className="glass rounded-xl p-3 text-left hover:border-neon/40 transition group">
