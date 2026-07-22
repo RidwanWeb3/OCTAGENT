@@ -296,7 +296,14 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
             </div>
           )}
           {messages.map((m, i) => (
-            <div key={i} className={m.role === "user" ? "flex justify-end" : ""}>
+            <div key={i} className={m.role === "user" ? "flex justify-end" : "flex items-start gap-3"}>
+              {m.role === "assistant" && (
+                <img
+                  src={mascot}
+                  alt="OCTAGEN"
+                  className="w-7 h-7 mt-0.5 rounded-full ring-1 ring-border/60 bg-background/50 drop-shadow-[0_0_14px_oklch(0.86_0.28_138_/_0.35)]"
+                />
+              )}
               <div className={m.role === "user"
                 ? "glass rounded-2xl rounded-br-sm px-4 py-3 max-w-[92%] sm:max-w-[85%] text-sm"
                 : "text-sm leading-relaxed whitespace-pre-wrap max-w-[96%] sm:max-w-[90%]"}>

@@ -427,7 +427,7 @@ export const Route = createFileRoute("/api/chat")({
             onchain ? `[3] RPC (${onchain.chain === "solana" ? "solana" : onchain.chain}) ${onchain.rpc}` : "[3] RPC source not available",
           ].join("\n");
 
-          system += `\n\nMode: Crypto Analysis\n\nSources:\n${sources}\n\nData context:\n\`\`\`json\n${JSON.stringify(compact)}\n\`\`\`\n\nWrite a deep institutional research brief with DEX + CEX coverage and an explicit on-chain health/risk section. Do not invent live prices beyond the context. Cite claims as [1] (Dex), [2] (CoinGecko), or [3] (On-chain RPC).`;
+          system += `\n\nMode: Crypto Analysis\n\nSources:\n${sources}\n\nData context:\n\`\`\`json\n${JSON.stringify(compact)}\n\`\`\`\n\nWrite a deep institutional research brief with DEX + CEX coverage and an explicit on-chain health/risk section.\n\nAlso provide:\n1) Forecast/Outlook: scenario-based (bull/base/bear) for 7D/30D/90D with probability ranges and clear triggers. Never invent live prices beyond the context; express directional bias and conditional triggers when exact levels are unknown.\n2) Playbook: 3 concrete user actions (entry/avoid/monitor), position sizing guidance, and a risk checklist.\n\nCite claims as [1] (Dex), [2] (CoinGecko), or [3] (On-chain RPC).`;
           const normalized = cmd.query;
           effectiveMessages = messages.map((m, i) => {
             if (i !== messages.length - 1) return m;
@@ -444,7 +444,7 @@ export const Route = createFileRoute("/api/chat")({
             `[1] https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(symbol)}`,
             `[2] https://financialmodelingprep.com/api/v3/profile/${encodeURIComponent(symbol)}`,
           ].join("\n");
-          system += `\n\nMode: Stock Analysis\n\nSources:\n${sources}\n\nData context:\n\`\`\`json\n${JSON.stringify(data)}\n\`\`\`\n\nWrite a concise institutional equity brief. Do not invent metrics beyond the context. Cite claims as [1] or [2].`;
+          system += `\n\nMode: Stock Analysis\n\nSources:\n${sources}\n\nData context:\n\`\`\`json\n${JSON.stringify(data)}\n\`\`\`\n\nWrite a concise institutional equity brief.\n\nAlso provide:\n1) Forecast/Outlook: scenario-based (bull/base/bear) for 1W/1M/3M with probability ranges and clear catalysts/triggers. Never invent metrics/prices beyond the context; use directional bias and conditional triggers when needed.\n2) Playbook: 3 concrete user actions, risk controls (position sizing, invalidation), and what to monitor next.\n\nCite claims as [1] or [2].`;
           effectiveMessages = messages.map((m, i) => {
             if (i !== messages.length - 1) return m;
             if (m.role !== "user") return m;
