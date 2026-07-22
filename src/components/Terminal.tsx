@@ -15,7 +15,7 @@ const COMMANDS = [
   { k: "/news crypto", d: "Latest crypto flows", cat: "crypto" as const },
   { k: "/valuation NVDA", d: "Equity valuation brief", cat: "stock" as const },
   { k: "/compare BTC ETH", d: "Comparative analysis", cat: "crypto" as const },
-  { k: "/crypto <symbol | address | dexscreener-url>", d: "DEX token analysis", cat: "crypto" as const },
+  { k: "/crypto <symbol | address | dexscreener-url | coingecko-url>", d: "CEX + DEX + on-chain research", cat: "crypto" as const },
   { k: "/stock <ticker>", d: "Equity analysis", cat: "stock" as const },
   { k: "/memory", d: "What Octa-Core remembers about me", cat: "general" as const },
 ];
@@ -191,7 +191,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
 
   return (
     <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-2xl flex flex-col animate-fade-up">
-      <div className="border-b border-border/60 px-6 h-14 flex items-center justify-between">
+      <div className="border-b border-border/60 px-4 sm:px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
@@ -216,10 +216,10 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
         </div>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-8">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
           {messages.length === 0 && (
-            <div className="text-center py-16">
+            <div className="text-center py-10 sm:py-16">
               <div className="flex justify-center mb-5">
                 <img
                   src={mascot}
@@ -233,13 +233,13 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
               <div className="mt-6 flex flex-wrap justify-center gap-2">
                 <button
                   onClick={() => { setMode("crypto"); setInput("/crypto "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "crypto" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
+                  className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "crypto" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
                 >
                   Analyze Crypto
                 </button>
                 <button
                   onClick={() => { setMode("stock"); setInput("/stock "); setSuggestOpen(true); setSuggestIdx(0); setHistIdx(-1); inputRef.current?.focus(); }}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "stock" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
+                  className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs font-mono tracking-[0.22em] uppercase transition-all ${mode === "stock" ? "bg-neon text-primary-foreground hover:animate-pulse-neon" : "glass hover:border-neon/50"}`}
                 >
                   Analyze Stock
                 </button>
@@ -257,7 +257,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
                   <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground uppercase mb-2">Recent prompts</div>
                   <div className="flex flex-wrap gap-1.5">
                     {history.slice(0, 8).map(h => (
-                      <button key={h} onClick={() => send(h)} className="text-[11px] font-mono px-2.5 py-1 rounded-md glass hover:border-neon/40 hover:text-neon transition truncate max-w-[280px]">
+                      <button key={h} onClick={() => send(h)} className="text-[11px] font-mono px-2.5 py-1 rounded-md glass hover:border-neon/40 hover:text-neon transition truncate max-w-[220px] sm:max-w-[280px]">
                         {h}
                       </button>
                     ))}
@@ -269,8 +269,8 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
           {messages.map((m, i) => (
             <div key={i} className={m.role === "user" ? "flex justify-end" : ""}>
               <div className={m.role === "user"
-                ? "glass rounded-2xl rounded-br-sm px-4 py-3 max-w-[85%] text-sm"
-                : "text-sm leading-relaxed whitespace-pre-wrap max-w-[90%]"}>
+                ? "glass rounded-2xl rounded-br-sm px-4 py-3 max-w-[92%] sm:max-w-[85%] text-sm"
+                : "text-sm leading-relaxed whitespace-pre-wrap max-w-[96%] sm:max-w-[90%]"}>
                 {m.role === "assistant" && (
                   <div className="text-[10px] font-mono tracking-[0.25em] text-neon uppercase mb-1.5">Octa-Core</div>
                 )}
@@ -282,10 +282,10 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
         </div>
       </div>
 
-      <div className="border-t border-border/60 px-6 py-4 relative">
+      <div className="border-t border-border/60 px-4 sm:px-6 py-4 relative">
         <div className="max-w-3xl mx-auto">
           {suggestOpen && suggestions.length > 0 && (
-            <div className="absolute bottom-full left-0 right-0 px-6 pb-2">
+            <div className="absolute bottom-full left-0 right-0 px-4 sm:px-6 pb-2">
               <div className="max-w-3xl mx-auto glass rounded-xl overflow-hidden border border-border/60">
                 {suggestions.map((s, i) => (
                   <button

@@ -27,7 +27,7 @@ export function StockMarketGrid() {
   }, []);
 
   return (
-    <section id="stocks" className="relative py-24 px-6 max-w-7xl mx-auto">
+    <section id="stocks" className="relative py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
       <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
         <div>
           <div className="flex items-center gap-2 mb-3">
@@ -44,16 +44,16 @@ export function StockMarketGrid() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
         {(rows ?? Array.from({ length: 10 })).map((r: any, i) => {
-          if (!r) return <div key={i} className="glass rounded-2xl h-32 animate-pulse" />;
+          if (!r) return <div key={i} className="glass rounded-2xl h-28 sm:h-32 animate-pulse" />;
           const up = (r.quote?.dp ?? 0) >= 0;
           return (
             <Link
               key={r.symbol}
               to="/stock/$symbol"
               params={{ symbol: r.symbol }}
-              className="glass rounded-2xl p-4 hover:border-neon/40 hover:-translate-y-1 transition-all duration-300 group"
+              className="glass rounded-2xl p-3 sm:p-4 hover:border-neon/40 hover:-translate-y-1 transition-all duration-300 group"
             >
               <div className="flex items-center gap-2 mb-2">
                 {r.profile?.logo && <img src={r.profile.logo} alt={r.symbol} className="w-6 h-6 rounded-md bg-white/5 p-0.5" />}

@@ -18,7 +18,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden min-h-[92vh] flex items-center">
+    <section ref={ref} className="relative overflow-hidden min-h-[92vh] min-h-[92svh] sm:min-h-[90vh] sm:min-h-[90svh] flex items-center">
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0 opacity-25"
@@ -50,13 +50,13 @@ export function Hero() {
       <div className="absolute inset-0 neural-grid opacity-40 pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neon/60 to-transparent" />
 
-      <div className="relative max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center w-full">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 grid lg:grid-cols-[1.1fr_1fr] gap-10 sm:gap-12 items-center w-full">
         <div className="animate-fade-up">
           <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-neon animate-pulse" />
             <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-muted-foreground">Octa-Core · v1.0 · Online</span>
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight">
             The 8-Armed <br />
             <span className="text-neon">Autonomous AI</span> <br />
             Intelligence.
@@ -97,7 +97,7 @@ export function Hero() {
               </a>
             </div>
           </div>
-          <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-md">
             {[
               { k: "8", l: "Specialized Minds" },
               { k: "24/7", l: "Autonomous Ops" },
@@ -111,7 +111,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative aspect-square max-w-[560px] justify-self-center w-full">
+        <div className="relative aspect-square max-w-[360px] sm:max-w-[460px] lg:max-w-[560px] justify-self-center w-full">
           <div className="absolute inset-6 rounded-full blur-3xl bg-neon/25 animate-pulse-neon" />
           <div className="absolute inset-0 rounded-full border border-neon/20 animate-orbit" />
           <div className="absolute inset-12 rounded-full border border-neon/10" style={{ animation: "orbit 30s linear infinite reverse" }} />

@@ -47,7 +47,7 @@ export function Nav() {
   return (
     <>
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/60 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
             <img src={mascot} alt="OCTAGEN" className="w-8 h-8 drop-shadow-[0_0_12px_oklch(0.86_0.28_138_/_0.6)] group-hover:scale-110 transition-transform" />
             <span className="font-bold tracking-[0.2em] text-sm">OCTAGEN</span>
@@ -63,8 +63,9 @@ export function Nav() {
             <button onClick={() => setSearch(true)} className="hidden sm:inline-flex items-center gap-2 text-xs font-mono text-muted-foreground border border-border rounded-lg px-3 py-1.5 hover:border-neon/40 hover:text-foreground transition">
               <span>⌕ Search</span><kbd className="text-[9px] opacity-60">⌘K</kbd>
             </button>
-            <button onClick={openTerminal} className="text-xs font-mono tracking-[0.24em] uppercase px-4 py-2 rounded-lg bg-neon text-primary-foreground hover:animate-pulse-neon transition-all">
-              MEET THE OCTAGEN
+            <button onClick={openTerminal} className="text-[10px] sm:text-xs font-mono tracking-[0.22em] sm:tracking-[0.24em] uppercase px-3 sm:px-4 py-2 rounded-lg bg-neon text-primary-foreground hover:animate-pulse-neon transition-all">
+              <span className="sm:hidden">OCTAGEN</span>
+              <span className="hidden sm:inline">MEET THE OCTAGEN</span>
             </button>
             {user ? (
               <div ref={menuRef} className="relative hidden sm:block">
@@ -76,7 +77,7 @@ export function Nav() {
                   <span className="w-5 h-5 rounded-full bg-neon/20 text-neon flex items-center justify-center text-[10px] font-bold">
                     {(user.email ?? "?").slice(0, 1).toUpperCase()}
                   </span>
-                  <span className="truncate max-w-[120px]">{user.email}</span>
+                  <span className="truncate max-w-[90px] sm:max-w-[160px]">{user.email}</span>
                 </button>
                 {menu && (
                   <div className="absolute right-0 mt-2 w-56 glass rounded-xl overflow-hidden border border-border/60 z-50">

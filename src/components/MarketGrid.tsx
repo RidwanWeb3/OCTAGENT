@@ -5,7 +5,7 @@ export function MarketGrid() {
   const { data, error } = useCryptoMarkets();
 
   return (
-    <section id="markets" className="relative py-24 px-6 max-w-7xl mx-auto">
+    <section id="markets" className="relative py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
       <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
         <div>
           <div className="flex items-center gap-2 mb-3">
@@ -26,12 +26,12 @@ export function MarketGrid() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {(data ?? Array.from({ length: 8 })).map((c: any, i) => {
-          if (!c) return <div key={i} className="glass rounded-2xl h-44 animate-pulse" />;
+          if (!c) return <div key={i} className="glass rounded-2xl h-40 sm:h-44 animate-pulse" />;
           const up = (c.price_change_percentage_24h ?? 0) >= 0;
           return (
             <article
               key={c.id}
-              className="glass rounded-2xl p-5 group hover:border-neon/40 transition-all hover:-translate-y-1 duration-300 relative overflow-hidden"
+              className="glass rounded-2xl p-4 sm:p-5 group hover:border-neon/40 transition-all hover:-translate-y-1 duration-300 relative overflow-hidden"
             >
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                    style={{ background: "radial-gradient(circle at 50% 0%, oklch(0.86 0.28 138 / 0.15), transparent 60%)" }} />
