@@ -196,9 +196,9 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
-              src={banner}
-              alt="OCTAGEN banner"
-              className={`h-8 w-[104px] sm:w-[132px] rounded-lg object-cover object-center ring-1 ring-border/60 drop-shadow-[0_0_16px_oklch(0.86_0.28_138_/_0.35)] transition-transform ${busy ? "animate-pulse-neon" : "hover:scale-[1.02]"}`}
+              src={mascot}
+              alt="OCTAGEN"
+              className={`w-8 h-8 drop-shadow-[0_0_14px_oklch(0.86_0.28_138_/_0.55)] transition-transform ${busy ? "animate-pulse-neon" : "hover:scale-110"}`}
             />
             <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-border bg-neon ${busy ? "animate-pulse" : "opacity-70"}`} />
           </div>
@@ -219,15 +219,32 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
+          <div className="glass rounded-2xl overflow-hidden border border-border/60">
+            <div className="relative h-20 sm:h-24">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${banner})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  filter: "saturate(1.06) contrast(1.06) brightness(0.55)",
+                }}
+              />
+              <div className="absolute inset-0 bg-background/55" />
+              <div
+                className="absolute inset-0"
+                style={{ background: "radial-gradient(800px circle at 20% 0%, oklch(0.86 0.28 138 / 0.18), transparent 55%)" }}
+              />
+              <div className="relative h-full flex items-end justify-between px-4 sm:px-6 pb-3">
+                <div className="text-[10px] font-mono tracking-[0.3em] uppercase text-muted-foreground">OCTAGEN</div>
+                <div className={`text-[10px] font-mono tracking-[0.3em] uppercase ${busy ? "text-neon" : "text-muted-foreground"}`}>
+                  {busy ? "SYNCING" : "ONLINE"}
+                </div>
+              </div>
+            </div>
+          </div>
           {messages.length === 0 && (
             <div className="text-center py-10 sm:py-16">
-              <div className="flex justify-center mb-5">
-                <img
-                  src={mascot}
-                  alt="OCTAGEN"
-                  className={`w-16 h-16 drop-shadow-[0_0_22px_oklch(0.86_0.28_138_/_0.45)] ${busy ? "animate-pulse-neon" : "animate-float"}`}
-                />
-              </div>
               <div className="text-[10px] font-mono tracking-[0.3em] text-neon uppercase mb-3">Ready</div>
               <h2 className="text-3xl font-bold">Ask Octa-Core anything.</h2>
               <p className="text-muted-foreground mt-3">Eight minds are synced and ready to think with you. Type <span className="text-neon font-mono">/</span> to unlock command mode, or tap <span className="text-neon font-mono">↑</span> to revisit your last signal.</p>
