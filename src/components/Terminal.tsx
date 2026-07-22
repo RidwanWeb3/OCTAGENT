@@ -1,3 +1,4 @@
+import mascot from "@/assets/octagen mascot.png";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -175,7 +176,14 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
     <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-2xl flex flex-col animate-fade-up">
       <div className="border-b border-border/60 px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-neon animate-pulse" />
+          <div className="relative">
+            <img
+              src={mascot}
+              alt="OCTAGEN"
+              className={`w-8 h-8 drop-shadow-[0_0_14px_oklch(0.86_0.28_138_/_0.55)] transition-transform ${busy ? "animate-pulse-neon" : "hover:scale-110"}`}
+            />
+            <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-border bg-neon ${busy ? "animate-pulse" : "opacity-70"}`} />
+          </div>
           <span className="text-xs font-mono tracking-[0.3em] uppercase text-muted-foreground">Octa-Core Terminal</span>
           {user && <span className="text-[10px] font-mono text-muted-foreground/70">· {user.email}</span>}
         </div>
@@ -195,6 +203,13 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
         <div className="max-w-3xl mx-auto space-y-6">
           {messages.length === 0 && (
             <div className="text-center py-16">
+              <div className="flex justify-center mb-5">
+                <img
+                  src={mascot}
+                  alt="OCTAGEN"
+                  className={`w-16 h-16 drop-shadow-[0_0_22px_oklch(0.86_0.28_138_/_0.45)] ${busy ? "animate-pulse-neon" : "animate-float"}`}
+                />
+              </div>
               <div className="text-[10px] font-mono tracking-[0.3em] text-neon uppercase mb-3">Ready</div>
               <h2 className="text-3xl font-bold">Ask Octa-Core anything.</h2>
               <p className="text-muted-foreground mt-3">Eight minds are online · OpenRouter + Mem0 memory · type <span className="text-neon font-mono">/</span> for commands, <span className="text-neon font-mono">↑</span> for history.</p>

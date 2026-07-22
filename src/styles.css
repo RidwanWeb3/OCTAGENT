@@ -93,6 +93,19 @@
   box-shadow: var(--shadow-glass);
 }
 
+.glass {
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .glass:hover {
+    transform: translateY(-2px);
+    border-color: oklch(0.86 0.28 138 / 0.28);
+    box-shadow: 0 10px 34px oklch(0 0 0 / 0.55), var(--shadow-neon);
+  }
+}
+
 @utility text-neon {
   color: var(--neon);
   text-shadow: 0 0 20px oklch(0.86 0.28 138 / 0.5), 0 0 40px oklch(0.86 0.28 138 / 0.2);
@@ -179,13 +192,18 @@
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
+  --sb-x: 0;
+  --sb-y: 0;
+  --sb-cx: 50%;
+  --sb-cy: 50%;
 }
 
 .site-backdrop__image,
 .site-backdrop__veil,
 .site-backdrop__mist,
 .site-backdrop__beam,
-.site-backdrop__grid {
+.site-backdrop__grid,
+.site-backdrop__cursor {
   position: absolute;
   inset: 0;
 }
@@ -197,6 +215,7 @@
   background-size: cover;
   filter: saturate(1.08) contrast(1.04) brightness(0.52);
   opacity: 0.22;
+  translate: calc(var(--sb-x) * -18px) calc(var(--sb-y) * -12px);
   transform: scale(1.06);
   animation: backdrop-drift 36s ease-in-out infinite alternate;
 }
@@ -219,6 +238,7 @@
   filter: blur(90px);
   opacity: 0.2;
   mix-blend-mode: screen;
+  translate: calc(var(--sb-x) * 26px) calc(var(--sb-y) * 26px);
 }
 
 .site-backdrop__mist--one {
@@ -242,6 +262,7 @@
     linear-gradient(180deg, transparent, oklch(0.88 0.29 135 / 0.05), transparent);
   filter: blur(24px);
   mix-blend-mode: screen;
+  translate: calc(var(--sb-x) * 16px) calc(var(--sb-y) * 10px);
   animation: beam-sweep 20s ease-in-out infinite alternate;
 }
 
@@ -252,7 +273,16 @@
   background-size: 72px 72px;
   mask-image: radial-gradient(circle at center, black 34%, transparent 86%);
   opacity: 0.28;
+  translate: calc(var(--sb-x) * -10px) calc(var(--sb-y) * -8px);
   animation: grid-drift 26s linear infinite;
+}
+
+.site-backdrop__cursor {
+  inset: -10%;
+  background: radial-gradient(circle 260px at var(--sb-cx) var(--sb-cy), oklch(0.88 0.29 135 / 0.18), transparent 62%);
+  mix-blend-mode: screen;
+  filter: blur(22px);
+  opacity: 0.12;
 }
 
 .site-backdrop--landing .site-backdrop__image {
@@ -273,6 +303,10 @@
   opacity: 0.34;
 }
 
+.site-backdrop--landing .site-backdrop__cursor {
+  opacity: 0.22;
+}
+
 .site-backdrop--subtle .site-backdrop__image {
   opacity: 0.16;
   filter: saturate(0.96) blur(2px) brightness(0.44);
@@ -289,4 +323,8 @@
 
 .site-backdrop--subtle .site-backdrop__grid {
   opacity: 0.14;
+}
+
+.site-backdrop--subtle .site-backdrop__cursor {
+  opacity: 0.08;
 }

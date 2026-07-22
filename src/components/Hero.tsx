@@ -49,6 +49,30 @@ export function Hero() {
               EXPLORE MARKETS
             </a>
           </div>
+          <div className="mt-5 glass rounded-2xl px-5 py-4 max-w-2xl">
+            <div className="text-[10px] font-mono tracking-[0.26em] uppercase text-muted-foreground">$OCTAGEN CA</div>
+            <div className="mt-2 text-lg sm:text-xl font-semibold text-neon tracking-[0.18em] uppercase">
+              COMING SOON
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href="https://ponsfamily.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-neon text-primary-foreground text-sm font-mono tracking-[0.22em] uppercase hover:animate-pulse-neon transition-all"
+              >
+                BUY $OCTAGEN
+              </a>
+              <a
+                href="https://dexscreener.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl glass hover:border-neon/50 text-sm font-mono tracking-[0.22em] uppercase transition-all"
+              >
+                $OCTAGEN CHART
+              </a>
+            </div>
+          </div>
           <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
             {[
               { k: "8", l: "Specialized Minds" },
