@@ -1,12 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Sparkline } from "@/components/Sparkline";
 import { formatUsd } from "@/lib/market";
+import { RequireAuth } from "@/components/RequireAuth";
+import { RiskBreakdown, Citations, type RiskFactor } from "@/components/RiskBreakdown";
 
 export const Route = createFileRoute("/crypto/$query")({
-  component: CryptoPage,
+  component: () => <RequireAuth><CryptoPage /></RequireAuth>,
   head: ({ params }) => ({
     meta: [
       { title: `${params.query.toUpperCase()} · Crypto Analysis · OCTAGEN` },
@@ -36,6 +38,41 @@ function CryptoPage() {
 
   const top = data?.top;
 
+  const citations = useMemo(() => {
+    if (!top) return [];
+    const c: { label: string; url?: string }[] = [
+      { label: `DexScreener — ${top.chainId}/${top.dexId} pair`, url: top.url },
+      { label: `Base token contract (${top.chainId})`, url: `https://dexscreener.com/${top.chainId}/${top.baseToken?.address}` },
+    ];
+    return c;
+  }, [top]);
+
+  const riskFactors = useMemo<RiskFactor[]>(() => {
+    if (!top) return [];
+    const liq = Number(top.liquidity?.usd ?? 0);
+    const vol24 = Number(top.volume?.h24 ?? 0);
+    const ageDays = top.pairCreatedAt ? Math.max(0, (Date.now() - top.pairCreatedAt) / 86400000) : 0;
+    const chg24 = Number(top.priceChange?.h24 ?? 0);
+    const buys = Number(top.txns?.h24?.buys ?? 0);
+    const sells = Number(top.txns?.h24?.sells ?? 0);
+    const total = buys + sells;
+    const buyRatio = total ? buys / total : 0.5;
+
+    const liqScore = liq >= 5_000_000 ? 95 : liq >= 1_000_000 ? 80 : liq >= 250_000 ? 60 : liq >= 50_000 ? 35 : liq >= 10_000 ? 15 : 5;
+    const volScore = vol24 >= 10_000_000 ? 95 : vol24 >= 1_000_000 ? 80 : vol24 >= 100_000 ? 55 : vol24 >= 10_000 ? 30 : 10;
+    const ageScore = ageDays >= 365 ? 95 : ageDays >= 180 ? 80 : ageDays >= 60 ? 60 : ageDays >= 14 ? 35 : ageDays >= 3 ? 15 : 5;
+    const momScore = Math.max(0, Math.min(100, 50 + chg24 * 2));
+    const flowScore = Math.round(50 + (buyRatio - 0.5) * 100);
+
+    return [
+      { label: "Liquidity depth", weight: 3, score: liqScore, detail: `$${liq.toLocaleString()} in pool` },
+      { label: "24h volume", weight: 2, score: volScore, detail: `$${vol24.toLocaleString()} traded` },
+      { label: "Pair age", weight: 2, score: ageScore, detail: `${Math.floor(ageDays)}d since launch` },
+      { label: "24h momentum", weight: 1, score: momScore, detail: `${chg24 >= 0 ? "+" : ""}${chg24.toFixed(2)}% price change` },
+      { label: "Buy / sell flow", weight: 1, score: Math.max(0, Math.min(100, flowScore)), detail: `${buys} buys · ${sells} sells (${Math.round(buyRatio * 100)}% buys)` },
+    ];
+  }, [top]);
+
   async function runAI() {
     if (!top || aiBusy) return;
     setAiBusy(true); setAi(null);
@@ -46,10 +83,12 @@ function CryptoPage() {
         priceUsd: top.priceUsd, priceChange: top.priceChange,
         liquidity: top.liquidity, volume: top.volume, txns: top.txns,
         fdv: top.fdv, marketCap: top.marketCap, pairCreatedAt: top.pairCreatedAt,
+        computedRiskFactors: riskFactors,
       };
       const r = await fetch("/api/ai-summary", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
         context: JSON.stringify(compact),
-        prompt: `Engage Analyst + Guardian + Explorer. Give a concise institutional-grade brief on this token: (1) what it is, (2) liquidity & volume health, (3) momentum vs 24h/7d, (4) red flags (age, low liquidity, honeypot signals), (5) a RISK SCORE from 0-100 (0 safe, 100 dangerous) with one-line rationale. Use markdown headings.`,
+        citations,
+        prompt: `Engage Analyst + Guardian + Explorer. Give a concise institutional brief on this token: (1) what it is, (2) liquidity & volume health, (3) momentum vs 24h/7d, (4) red flags (age, low liquidity, honeypot signals), (5) confirm or challenge the pre-computed risk factors above. Cite every data claim inline as [1] or [2]. Use markdown headings.`,
       })});
       if (!r.ok) throw new Error(await r.text());
       const j = await r.json();
@@ -92,12 +131,7 @@ function CryptoPage() {
                 <a href={top.url} target="_blank" rel="noreferrer" className="text-xs font-mono text-neon hover:underline">Open on DexScreener →</a>
               </div>
               <div className="rounded-xl overflow-hidden border border-border/60 bg-black/40" style={{ aspectRatio: "16/10" }}>
-                <iframe
-                  key={top.pairAddress}
-                  src={`https://dexscreener.com/${top.chainId}/${top.pairAddress}?embed=1&theme=dark&info=0`}
-                  className="w-full h-full"
-                  title="DexScreener chart"
-                />
+                <iframe key={top.pairAddress} src={`https://dexscreener.com/${top.chainId}/${top.pairAddress}?embed=1&theme=dark&info=0`} className="w-full h-full" title="DexScreener chart" />
               </div>
             </div>
 
@@ -111,6 +145,10 @@ function CryptoPage() {
               <Metric label="Contract" value={<span className="font-mono text-[10px] break-all">{top.baseToken?.address}</span>} />
             </div>
 
+            <div className="lg:col-span-3">
+              <RiskBreakdown factors={riskFactors} title="Guardian · Transparent Risk Breakdown" />
+            </div>
+
             <div className="lg:col-span-3 glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Octa-Core AI Analysis</h2>
@@ -118,9 +156,14 @@ function CryptoPage() {
                   {aiBusy ? "Analyst working…" : ai ? "Regenerate" : "Run Analysis"}
                 </button>
               </div>
-              {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Run Analyst + Guardian to score risk and synthesize on-chain signals.</p>}
+              {!ai && !aiBusy && <p className="text-sm text-muted-foreground">Run Analyst + Guardian to score risk and synthesize on-chain signals with inline citations.</p>}
               {aiBusy && <div className="animate-pulse text-sm text-muted-foreground">Eight minds converging…</div>}
-              {ai && <div className="prose prose-invert prose-sm max-w-none whitespace-pre-wrap text-sm leading-relaxed">{ai}</div>}
+              {ai && (
+                <>
+                  <div className="prose prose-invert prose-sm max-w-none whitespace-pre-wrap text-sm leading-relaxed">{ai}</div>
+                  <Citations items={citations} />
+                </>
+              )}
             </div>
 
             {(data.pairs?.length ?? 0) > 1 && (
@@ -141,7 +184,6 @@ function CryptoPage() {
         )}
 
         <div className="mt-8"><Link to="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">← Home</Link></div>
-        {/* keep Sparkline import used so tree-shakes cleanly */}
         <div className="hidden"><Sparkline data={[]} up /></div>
       </main>
       <Footer />
