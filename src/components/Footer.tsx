@@ -7,7 +7,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-2.5 mb-4">
             <img src={mascot} alt="OCTAGEN" className="w-8 h-8" />
-            <span className="font-bold tracking-[0.2em] text-sm">OCTAGEN</span>
+            <span className="font-bold tracking-[0.2em] text-sm text-neon drop-shadow-[0_0_18px_oklch(0.86_0.28_138_/_0.35)]">OCTAGEN</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-xs">
             The 8-armed autonomous AI intelligence. Eight minds, one consciousness — designed for traders, developers, and researchers.

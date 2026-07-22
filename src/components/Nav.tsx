@@ -50,7 +50,7 @@ export function Nav() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
             <img src={mascot} alt="OCTAGEN" className="w-8 h-8 drop-shadow-[0_0_12px_oklch(0.86_0.28_138_/_0.6)] group-hover:scale-110 transition-transform" />
-            <span className="font-bold tracking-[0.2em] text-sm">OCTAGEN</span>
+            <span className="font-bold tracking-[0.2em] text-sm text-neon drop-shadow-[0_0_18px_oklch(0.86_0.28_138_/_0.35)]">OCTAGEN</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="/#markets" className="hover:text-foreground transition-colors">Crypto</a>

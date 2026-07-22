@@ -247,7 +247,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
                 style={{ background: "radial-gradient(800px circle at 20% 0%, oklch(0.86 0.28 138 / 0.18), transparent 55%)" }}
               />
               <div className="relative h-full flex items-end justify-between px-4 sm:px-6 pb-3">
-                <div className="text-[10px] font-mono tracking-[0.3em] uppercase text-muted-foreground">OCTAGEN</div>
+                <div className="text-[10px] font-mono tracking-[0.3em] uppercase text-neon drop-shadow-[0_0_18px_oklch(0.86_0.28_138_/_0.35)]">OCTAGEN</div>
                 <div className={`text-[10px] font-mono tracking-[0.3em] uppercase ${busy ? "text-neon" : "text-muted-foreground"}`}>
                   {busy ? "SYNCING" : "ONLINE"}
                 </div>
