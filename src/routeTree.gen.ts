@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as StockSymbolRouteImport } from './routes/stock.$symbol'
 import { Route as CryptoQueryRouteImport } from './routes/crypto.$query'
 import { Route as ApiTavilyRouteImport } from './routes/api/tavily'
+import { Route as ApiStocksMarketRouteImport } from './routes/api/stocks-market'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiAiSummaryRouteImport } from './routes/api/ai-summary'
 import { Route as ApiStockSymbolRouteImport } from './routes/api/stock.$symbol'
@@ -44,6 +45,11 @@ const ApiTavilyRoute = ApiTavilyRouteImport.update({
   path: '/api/tavily',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStocksMarketRoute = ApiStocksMarketRouteImport.update({
+  id: '/api/stocks-market',
+  path: '/api/stocks-market',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
   '/stock/$symbol': typeof StockSymbolRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
   '/stock/$symbol': typeof StockSymbolRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/api/ai-summary': typeof ApiAiSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/stocks-market': typeof ApiStocksMarketRoute
   '/api/tavily': typeof ApiTavilyRoute
   '/crypto/$query': typeof CryptoQueryRoute
   '/stock/$symbol': typeof StockSymbolRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
     | '/stock/$symbol'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
     | '/stock/$symbol'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/api/ai-summary'
     | '/api/chat'
+    | '/api/stocks-market'
     | '/api/tavily'
     | '/crypto/$query'
     | '/stock/$symbol'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ApiAiSummaryRoute: typeof ApiAiSummaryRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiStocksMarketRoute: typeof ApiStocksMarketRoute
   ApiTavilyRoute: typeof ApiTavilyRoute
   CryptoQueryRoute: typeof CryptoQueryRoute
   StockSymbolRoute: typeof StockSymbolRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTavilyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/stocks-market': {
+      id: '/api/stocks-market'
+      path: '/api/stocks-market'
+      fullPath: '/api/stocks-market'
+      preLoaderRoute: typeof ApiStocksMarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ApiAiSummaryRoute: ApiAiSummaryRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiStocksMarketRoute: ApiStocksMarketRoute,
   ApiTavilyRoute: ApiTavilyRoute,
   CryptoQueryRoute: CryptoQueryRoute,
   StockSymbolRoute: StockSymbolRoute,
@@ -229,13 +250,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
