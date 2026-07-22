@@ -1,5 +1,5 @@
 import mascot from "@/assets/octagen mascot.png";
-import banner from "@/assets/octagen-banner.jpeg";
+import banner from "@/assets/octagen.png";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -220,7 +220,7 @@ export function Terminal({ open, onClose }: { open: boolean; onClose: () => void
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="glass rounded-2xl overflow-hidden border border-border/60">
-            <div className="relative h-24 sm:h-28">
+            <div className="relative h-28 sm:h-32">
               <div
                 className="absolute inset-0 opacity-35"
                 style={{
