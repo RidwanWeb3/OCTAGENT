@@ -1,12 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Sparkline } from "@/components/Sparkline";
 import { formatUsd } from "@/lib/market";
+import { RequireAuth } from "@/components/RequireAuth";
+import { RiskBreakdown, Citations, type RiskFactor } from "@/components/RiskBreakdown";
 
 export const Route = createFileRoute("/stock/$symbol")({
-  component: StockPage,
+  component: () => <RequireAuth><StockPage /></RequireAuth>,
   head: ({ params }) => ({
     meta: [
       { title: `${params.symbol.toUpperCase()} · Stock Analysis · OCTAGEN` },
@@ -34,6 +36,48 @@ function StockPage() {
       .then(setD).catch(e => setErr(e.message));
   }, [symbol]);
 
+  const q = d?.quote;
+  const p = d?.profile;
+  const m = d?.metrics;
+  const prices: number[] = (d?.history ?? []).map((h: any) => h.close);
+  const up = q ? q.d >= 0 : true;
+
+  const citations = useMemo(() => {
+    if (!d) return [];
+    return [
+      { label: `Finnhub quote & news feed for ${d.symbol}`, url: `https://finnhub.io/` },
+      { label: `Financial Modeling Prep — profile, metrics & 90d history`, url: `https://site.financialmodelingprep.com/` },
+    ];
+  }, [d]);
+
+  const riskFactors = useMemo<RiskFactor[]>(() => {
+    if (!d) return [];
+    const pe = Number(m?.peRatioTTM ?? 0);
+    const beta = Number(p?.beta ?? 1);
+    const mcap = Number(p?.mktCap ?? 0);
+    const margin = Number(m?.netProfitMarginTTM ?? 0);
+    const last30 = prices.slice(-30);
+    const dp = Number(q?.dp ?? 0);
+    const mean = last30.reduce((a, b) => a + b, 0) / (last30.length || 1);
+    const vol = last30.length ? Math.sqrt(last30.reduce((a, b) => a + (b - mean) ** 2, 0) / last30.length) / (mean || 1) : 0;
+
+    const valuationScore = pe <= 0 ? 25 : pe < 15 ? 90 : pe < 25 ? 75 : pe < 40 ? 55 : pe < 70 ? 30 : 10;
+    const marginScore = margin >= 0.25 ? 95 : margin >= 0.15 ? 80 : margin >= 0.05 ? 60 : margin >= 0 ? 35 : 10;
+    const mcapScore = mcap >= 500e9 ? 95 : mcap >= 50e9 ? 85 : mcap >= 10e9 ? 70 : mcap >= 2e9 ? 50 : mcap >= 500e6 ? 30 : 10;
+    const betaScore = Math.max(0, Math.min(100, Math.round(100 - Math.abs(beta - 1) * 40)));
+    const momScore = Math.max(0, Math.min(100, 50 + dp * 3));
+    const volScore = Math.max(0, Math.min(100, Math.round(100 - vol * 500)));
+
+    return [
+      { label: "Valuation (P/E)", weight: 3, score: valuationScore, detail: pe > 0 ? `P/E ${pe.toFixed(2)}x TTM` : "Unprofitable or missing" },
+      { label: "Profitability", weight: 2, score: marginScore, detail: `${(margin * 100).toFixed(2)}% net margin TTM` },
+      { label: "Market cap resilience", weight: 2, score: mcapScore, detail: `${formatUsd(mcap)} market cap` },
+      { label: "Beta stability", weight: 1, score: betaScore, detail: `β ${beta.toFixed(2)} vs market` },
+      { label: "30d realized vol", weight: 1, score: volScore, detail: `${(vol * 100).toFixed(2)}% stdev / mean` },
+      { label: "Session momentum", weight: 1, score: momScore, detail: `${dp >= 0 ? "+" : ""}${dp.toFixed(2)}% today` },
+    ];
+  }, [d, m, p, q, prices]);
+
   async function runAI() {
     if (aiBusy || !d) return;
     setAiBusy(true); setAi(null);
@@ -44,23 +88,19 @@ function StockPage() {
           mktCap: d.profile.mktCap, beta: d.profile.beta, description: d.profile.description?.slice(0, 400),
         } : null,
         metrics: d.metrics,
-        recentPrices: d.history?.slice(-30).map((h: any) => h.close),
+        recentPrices: prices.slice(-30),
+        computedRiskFactors: riskFactors,
       };
       const r = await fetch("/api/ai-summary", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
         context: JSON.stringify(compact),
-        prompt: `Engage Analyst + Strategist + Guardian. Give an institutional equity brief on ${d.symbol}: (1) business one-liner, (2) valuation read (P/E, P/S, margins from metrics), (3) momentum & technical support/resistance derived from the recent price series, (4) key risks, (5) a BUY/HOLD/SELL bias with confidence % and a 1-line thesis. Markdown, tight, no fluff.`,
+        citations,
+        prompt: `Engage Analyst + Strategist + Guardian. Give an institutional equity brief on ${d.symbol}: (1) business one-liner, (2) valuation read (P/E, P/S, margins from metrics), (3) momentum & technical support/resistance derived from the recent price series, (4) key risks, (5) a BUY/HOLD/SELL bias with confidence % and 1-line thesis, (6) confirm or challenge the pre-computed risk factors above. Cite every data claim inline as [1] or [2]. Markdown, tight, no fluff.`,
       })});
       if (!r.ok) throw new Error(await r.text());
       const j = await r.json();
       setAi(j.text);
     } catch (e: any) { setAi(`Error: ${e.message}`); } finally { setAiBusy(false); }
   }
-
-  const q = d?.quote;
-  const p = d?.profile;
-  const m = d?.metrics;
-  const prices = (d?.history ?? []).map((h: any) => h.close);
-  const up = q ? q.d >= 0 : true;
 
   return (
     <div className="dark min-h-screen">
